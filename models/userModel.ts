@@ -7,7 +7,7 @@ interface IUser extends Document{
     role: ROLE
 }
 
-enum ROLE {
+export enum ROLE {
     ADMIN = "admin",
     USER = "user"
 }
@@ -22,7 +22,8 @@ const UserSchema: Schema<IUser> =new mongoose.Schema({
     username: {
         required: [true, "Username is required"],
         trim: true,
-        unique: true
+        unique: true,
+        type: String
     },
     password: {
         type: String,
@@ -33,7 +34,7 @@ const UserSchema: Schema<IUser> =new mongoose.Schema({
         enum: Object.values(ROLE),
         default: ROLE.USER
     }
-});
+}, { timestamps: true });
 
-const User = mongoose.model<IUser>('User', UserSchema);
+const User = mongoose.models.User || mongoose.model<IUser>('User', UserSchema);
 export default User;

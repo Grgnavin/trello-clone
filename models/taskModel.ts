@@ -50,7 +50,7 @@ const TaskSchema: Schema<ITask> = new mongoose.Schema({
         enum: Object.values(Priority),
         default: Priority.Low
     },
-});
+}, { timestamps: true });
 
 const Task = mongoose.model<ITask>('Task', TaskSchema);
 export default Task;
