@@ -39,9 +39,9 @@ const Signin = () => {
             },
             withCredentials: true
         })
-        console.log(res);
         toast({
-            title: "Success",
+            variant: "Success",
+            title: "Signin successfull",
             description: res.data?.message
         })
         router.push('/');

@@ -18,3 +18,9 @@ export const UserSigninSchema = z.object({
         email: z.string(),
         password: z.string()
 }) 
+
+export const createRoomSchema = z.object({
+        name: z.string(),
+        description: z.string(),
+        code: z.string()
+})

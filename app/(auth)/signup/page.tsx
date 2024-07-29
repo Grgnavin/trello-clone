@@ -40,7 +40,8 @@ const SignupForm = () => {
             },
             withCredentials:true});
             toast({
-                title: "Success",
+                variant: "default",
+                title: "Signup sucessfull",
                 description: "User created successfully",
             });
             router.push('/signin');

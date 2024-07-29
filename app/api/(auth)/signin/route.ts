@@ -13,7 +13,6 @@ type userDetails = {
 export async function POST(req: Request, res: Response){
     try {
         const { email, password } = await req.json();
-        console.log('Received data:', { email, password });
         if (!email || !password) {
             return Response.json({
                 success: false,
@@ -22,14 +21,14 @@ export async function POST(req: Request, res: Response){
         }
 
         await dbConnect();
-        const checkUsername = await User.findOne({ email }) as userDetails;
+        const checkUsername = await User.findOne({ email });
         if (!checkUsername) {
             return Response.json({
                 sucess: false,
                 message: "Incorrect Credentials"
             }, { status: 400 });
         }
-        const token = jwt.sign({ email: checkUsername.email }, process.env.JWT_SECRET as string, { expiresIn: '1d' });
+        const token = jwt.sign({user: checkUsername} , process.env.JWT_SECRET as string, { expiresIn: '1d' });
         const isPasswordMatch = await bcrypt.compare(password, checkUsername.password);
         if (!isPasswordMatch) {
             return Response.json({
@@ -40,7 +39,10 @@ export async function POST(req: Request, res: Response){
 
         const user = await User.findOne({ email }).select('-password');
         const oneDay = 24 * 60 * 60 * 1000
-        cookies().set('token', token, { maxAge: Date.now() - oneDay })
+        cookies().set('token', token, { 
+            maxAge: Date.now() - oneDay, 
+            secure: true
+        });
         return Response.json({
             data: user,
             message: `Sucessfully loggedIn as ${user?.username}`,
