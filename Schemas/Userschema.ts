@@ -14,7 +14,7 @@ export const UserSignupSchema = z.object({
                                 .max(20, "Password shouldn't have more than 20 characters")
 })
 
-export const signinSchema = z.object({
+export const UserSigninSchema = z.object({
         email: z.string(),
         password: z.string()
 }) 

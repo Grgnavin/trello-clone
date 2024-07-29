@@ -1,7 +1,9 @@
 import dbConnect from "@/app/lib/dbConnect";
 import User, { ROLE } from "@/models/userModel";
-import { Request, Response } from "express";
+import { Request } from "express";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { cookies } from "next/headers";
 
 type userDetails = {
     email: string;
@@ -10,36 +12,46 @@ type userDetails = {
 
 export async function POST(req: Request, res: Response){
     try {
-        const { email, password } = await req.body();
+        const { email, password } = await req.json();
+        console.log('Received data:', { email, password });
+        if (!email || !password) {
+            return Response.json({
+                success: false,
+                message: "All fields are required"
+            }, { status: 400 })
+        }
+
         await dbConnect();
         const checkUsername = await User.findOne({ email }) as userDetails;
         if (!checkUsername) {
-            return res.json({
+            return Response.json({
                 sucess: false,
-                message: "User not loggedIn..."
-            });
+                message: "Incorrect Credentials"
+            }, { status: 400 });
         }
+        const token = jwt.sign({ email: checkUsername.email }, process.env.JWT_SECRET as string, { expiresIn: '1d' });
         const isPasswordMatch = await bcrypt.compare(password, checkUsername.password);
         if (!isPasswordMatch) {
-            return res.json({
+            return Response.json({
                 sucess: false,
                 message: "Incorrect Password"
-            });
+            }, { status: 403 });
         }
 
         const user = await User.findOne({ email }).select('-password');
-
-        return res.json({
+        const oneDay = 24 * 60 * 60 * 1000
+        cookies().set('token', token, { maxAge: Date.now() - oneDay })
+        return Response.json({
             data: user,
             message: `Sucessfully loggedIn as ${user?.username}`,
             success: true
-        })
+        }, { status: 200 })
 
     } catch (error) {
         console.log("Error signing up user", error);    
-        return res.json({
+        return Response.json({
             success: false,
             message: `Error signing up user: ${error.message}`
-        })
+        }, { status: 500 })
     }
 }
