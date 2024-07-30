@@ -6,17 +6,18 @@ interface ITask extends Document{
     Deadline:  Date,
     user: mongoose.Schema.Types.ObjectId;
     status: Status,
-    priority: Priority
+    priority: Priority;
+    roomId: mongoose.Schema.Types.ObjectId;
 }
 
-enum Status {
+export enum Status {
     TODO = "to-do",
     IN_PROGRESS = "in-progress",
     UNDER_REVIEW = "under-review",
     FINISHED = "finished"
 }
 
-enum Priority {
+export enum Priority {
     Low = "low",
     Medium = "medium",
     Urgent = "urgent",
@@ -50,6 +51,10 @@ const TaskSchema: Schema<ITask> = new mongoose.Schema({
         enum: Object.values(Priority),
         default: Priority.Low
     },
+    roomId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Room'
+    }
 }, { timestamps: true });
 
 const Task = mongoose.model<ITask>('Task', TaskSchema);

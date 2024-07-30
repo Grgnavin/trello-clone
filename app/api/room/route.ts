@@ -1,6 +1,6 @@
 import  jwt  from 'jsonwebtoken';
 import { cookies } from 'next/headers';
-import dbConnect from "@/app/lib/dbConnect";
+import dbConnect from "@/lib/dbConnect";
 import Room from "@/models/roomModel";
 
 interface Room extends Document{

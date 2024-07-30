@@ -1,4 +1,4 @@
-import dbConnect from "@/app/lib/dbConnect";
+import dbConnect from "@/lib/dbConnect";
 import Room from "@/models/roomModel";
 import { useSearchParams } from 'next/navigation';
 

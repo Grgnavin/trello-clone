@@ -1,4 +1,4 @@
-import dbConnect from "@/app/lib/dbConnect";
+import dbConnect from "@/lib/dbConnect";
 import User, { ROLE } from "@/models/userModel";
 import { Request } from "express";
 import bcrypt from "bcrypt";

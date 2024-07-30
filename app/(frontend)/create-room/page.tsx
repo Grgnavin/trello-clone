@@ -1,29 +1,27 @@
 'use client';
+import { setId } from '@/app/redux/roomSlice';
 import { Button } from '@/components/ui/button';
 import { FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/use-toast'
-import { ApiResponse } from '@/Schemas/ApiResponse';
-import { createRoomSchema, UserSignupSchema } from '@/Schemas/Userschema';
+import { createRoomSchema } from '@/Schemas/Userschema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import * as z from "zod";
 
 const CreateRoom = () => {
     const { toast } = useToast();
     const router = useRouter();
-
+    const dispatch = useDispatch();
     const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
     const [code, setCode] = useState('');
     const[isSubmitting, setIsSubmitting] = useState(false);
-
 
     const form = useForm<z.infer<typeof createRoomSchema>>({
         resolver: zodResolver(createRoomSchema),
@@ -43,12 +41,13 @@ const CreateRoom = () => {
                 },
                 withCredentials: true
             })
-            console.log(res);
+            const roomId = res.data?.data?._id;
             toast({
                 title: "Secure room created",
-                description: "Room has been successfully created"
+                description: res.data?.message
             })
-            router.push(`/room/${res.data?._id}`)
+            dispatch(setId(roomId));
+            router.push(`/room/${roomId}`)
         } catch (error) {
             console.log(error);
             toast({
