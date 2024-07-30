@@ -18,7 +18,7 @@ import * as z from "zod";
 const CreateRoom = () => {
     const { toast } = useToast();
     const router = useRouter();
-    
+
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [code, setCode] = useState('');
@@ -45,16 +45,16 @@ const CreateRoom = () => {
             })
             console.log(res);
             toast({
-                title: "Room created",
+                title: "Secure room created",
                 description: "Room has been successfully created"
             })
-            router.push(`/room/${res.data?.name}`)
+            router.push(`/room/${res.data?._id}`)
         } catch (error) {
             console.log(error);
             toast({
                 variant: "destructive",
                 title: "Can't create room",
-                description: error?.response?.data?.message,
+                description: error?.response?.message,
             });
             console.error("Error in creating room: ", error);
         }finally {

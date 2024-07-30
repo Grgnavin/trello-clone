@@ -2,8 +2,6 @@ import  jwt  from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 import dbConnect from "@/app/lib/dbConnect";
 import Room from "@/models/roomModel";
-import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
-
 
 interface Room extends Document{
     name: string,
@@ -11,6 +9,7 @@ interface Room extends Document{
     user: any,
     task: [],
 };
+
 export async function POST(req: Request) {
     const { name, description, code } = await req.json();
     await dbConnect();

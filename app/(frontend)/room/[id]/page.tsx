@@ -2,7 +2,9 @@ import React from 'react'
 
 const Room = () => {
     return (
-        <div>Room</div>
+        <div>
+            RoomID
+        </div>
     )
 }
 
