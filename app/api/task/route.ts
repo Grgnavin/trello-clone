@@ -1,4 +1,4 @@
-import Task, { Priority } from './../../../../models/taskModel';
+import Task, { Priority } from '../../../models/taskModel';
 import dbConnect from "@/lib/dbConnect";
 import { Status } from "@/models/taskModel";
 
