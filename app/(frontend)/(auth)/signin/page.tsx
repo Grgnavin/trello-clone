@@ -1,4 +1,5 @@
 'use client';
+import { setUser } from '@/app/redux/userSlice';
 import { Button } from '@/components/ui/button';
 import { FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -12,12 +13,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import * as z  from 'zod';
 
 const Signin = () => {
     const { toast } = useToast();
     const router = useRouter();
-
+    const dispatch = useDispatch();
     const[email, setEmail] = useState("");
     const[password, setPassword] = useState("");
     const[isSubmitting, setIsSubmitting] = useState(false);
@@ -39,12 +41,13 @@ const Signin = () => {
             },
             withCredentials: true
         })
+        dispatch(setUser(res.data?.data));
         toast({
             variant: "Success",
             title: "Signin successfull",
             description: res.data?.message
         })
-        router.push('/');
+        router.push('/dashboard');
         } catch (error) {
             toast({
                 variant: "destructive",

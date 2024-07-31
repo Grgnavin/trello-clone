@@ -46,7 +46,7 @@ const CreateRoom = () => {
                 title: "Secure room created",
                 description: res.data?.message
             })
-            dispatch(setId(roomId));
+            dispatch(setId(res.data?.data));
             router.push(`/room/${roomId}`)
         } catch (error) {
             console.log(error);

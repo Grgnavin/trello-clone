@@ -7,10 +7,10 @@ interface Room {
 const roomSlice = createSlice({
     name: "room",
     initialState: {
-        id: null
-    } as Room,
+        id: ""
+    },
     reducers: {
-        setId: (state, actions: PayloadAction<string>) => {
+        setId: (state, actions: PayloadAction<any>) => {
             state.id = actions.payload
         }
     }
