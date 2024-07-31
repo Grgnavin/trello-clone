@@ -11,7 +11,7 @@ const fontSans = FontSans({
 })
 
 export const metadata: Metadata = {
-  title: "Trello clone",
+  title: "Workflow",
   description: "Your go-to task manager"
 }
 

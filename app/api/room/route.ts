@@ -11,18 +11,26 @@ interface Room extends Document{
 };
 
 export async function POST(req: Request) {
-    const { name, description, code } = await req.json();
-    await dbConnect();
-    try {
-        const tokenCookie = cookies().get('token');
-        const token = tokenCookie ? tokenCookie.value : undefined;
+        const { name, description, code } = await req.json();
+
+        await dbConnect();
         if (!name || !description) {
             return Response.json({
                 success: false,
                 message: "All fields are required"
             }, { status: 400 })
         }
-    
+    try {
+        const tokenCookie = cookies().get('token');
+        const token = tokenCookie ? tokenCookie.value : undefined;
+        
+        if(!token) { 
+            return Response.json({
+                success: false,
+                message: "Token is missing"
+            }, { status:403 })
+        }
+
         const checkRoom = await Room.findOne({ name });
         if (checkRoom) {
             return Response.json({
@@ -52,5 +60,38 @@ export async function POST(req: Request) {
             message: `Internal Server Error`,
             success: false
         }, { status: 500 })
+    }
+}
+
+export async function GET(req: Request) {
+    try {
+        const cookie = cookies();
+        const hasCookie = cookie.has('token');
+        if (!hasCookie) {
+            return Response.json({
+                success: false,
+                message: "Token is missing"
+            })
+        }
+        const room = await Room.find().select('-code');
+    
+        if(room.length === 0 || !room) {
+            return Response.json({
+                success: true,
+                message: "No Rooms to show"
+            }, { status: 201 })
+        }
+    
+        return Response.json({
+            data: room,
+            message: "Here are all the rooms"
+        }, { status: 201 })
+    } catch (error) {
+        console.log(error);
+        console.error(error);
+        return Response.json({
+            success: false,
+            message: "Internal server error"
+        },{ status: 500 })
     }
 }
