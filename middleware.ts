@@ -1,16 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
+import { cookies } from 'next/headers'
 
 export async function middleware(req: NextRequest) {
-    console.log("Middleware Triggred");
     const url = req.nextUrl;
-    console.log(url.pathname);
-    const cookie = req.cookies.get('token')
-    console.log("Cookies: ", cookie);
-    if (!cookie) {
+    const cookieStore = cookies();
+    const cookie = cookieStore.get('token');
+    if (!cookie && url.pathname === ('/')) {
         return NextResponse.redirect(new URL('/signup', req.url));
     }
-
-    
     if (
         req.cookies.has('token')  && 
         (
@@ -19,10 +16,8 @@ export async function middleware(req: NextRequest) {
             url.pathname === ('/') 
         )
     ) {
-        console.log("Redirecting to /dashboard");
         return NextResponse.redirect(new URL('/dashboard', req.url));
     }
-
     return NextResponse.next();
 }
 
