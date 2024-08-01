@@ -10,7 +10,7 @@ interface ReqBody {
     priority :Priority
 }
 
-export async function POST(req: Request) {
+export async function POST(req: Request): Promise<any> {
     await dbConnect();
     const { name, description, Deadline, status, priority }: ReqBody = await req.json();
 

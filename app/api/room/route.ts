@@ -10,7 +10,7 @@ interface Room extends Document{
     task: [],
 };
 
-export async function POST(req: Request) {
+export async function POST(req: Request): Promise<any>{
         const { name, description, code } = await req.json();
 
         await dbConnect();

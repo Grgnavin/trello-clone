@@ -5,7 +5,7 @@ interface ReqBody {
     name: string;
     code : number
 }
-export async function POST(req: Request) {
+export async function POST(req: Request): Promise<any> {
     const { name, code }: ReqBody = await req.json();
     await dbConnect();
     try {
