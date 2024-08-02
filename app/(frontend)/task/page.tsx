@@ -20,7 +20,7 @@ const CreateTask = () => {
       <Card className="w-[750px] bg-white">
         <CardHeader className='items-center'>
           <CardTitle >Create Your Task</CardTitle>
-          <CardDescription>Please select all the things listed there</CardDescription>
+          <CardDescription>Please select all the things listed below</CardDescription>
         </CardHeader>
         <CardContent>
           <form>

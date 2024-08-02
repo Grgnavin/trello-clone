@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import RoomCard from '@/components/Roomcard'; // Adjust the import path as needed
+import { useRouter } from 'next/navigation';
 
 // Define the types
 interface UserState {
@@ -23,20 +24,24 @@ interface RootState {
 
 const Dashboard: React.FC = () => {
     const [rooms, setRooms] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
     const user = useSelector((state: RootState) => state.user.user);
-
+    const router = useRouter();
+    
     useEffect(() => {
         const fetchData = async () => {
             try {
+                setLoading(true)
                 const res = await axios.get('/api/room', {
                     withCredentials: true,
                 });
                 setRooms(res.data?.data || []); // Ensure that rooms is set correctly
             } catch (error) {
                 console.error('Error fetching data:', error);
+            }finally{
+                setLoading(false)
             }
         };
-
         fetchData();
     }, []); // Empty dependency array to run effect only once
 
@@ -48,6 +53,10 @@ const Dashboard: React.FC = () => {
     // Destructure user properties
     const username = user?.username;
 
+    const handleSignInRedirect = () => {
+        router.push('/signin');
+    }
+
     return (
         <div className="min-h-screen flex flex-col">
             {/* Top bar */}
@@ -56,17 +65,29 @@ const Dashboard: React.FC = () => {
                     Good morning, {username || 'Loading...'}
                 </h1>
             </div>
-                <p className="mt-2 text-center">Here is the list of rooms you can join:</p>
+            <p className="mt-2 text-center">Here is the list of rooms you can join:</p>
             {/* Main content */}
             <div className="flex-1 p-4">
-                <div className="space-y-4">
-                    {rooms.map((room) => (
-                        <RoomCard key={room._id} room={room} onJoin={handleJoin} />
-                    ))}
-                </div>
+                {rooms.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center">
+                        <p className="text-lg">No rooms available. Please log in to see rooms.</p>
+                        <button 
+                            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
+                            onClick={handleSignInRedirect}
+                        >
+                            Go to Sign In
+                        </button>
+                    </div>
+                ) : (
+                    <div className="space-y-4">
+                        {rooms.map((room) => (
+                            <RoomCard key={room._id} room={room} onJoin={handleJoin} />
+                        ))}
+                    </div> 
+                )}
             </div>
         </div>
     );
-};
+    
 
 export default Dashboard;
