@@ -43,7 +43,6 @@ const Signin = () => {
         })
         dispatch(setUser(res.data?.data));
         toast({
-            variant: "Success",
             title: "Signin successfull",
             description: res.data?.message
         })
@@ -57,10 +56,8 @@ const Signin = () => {
             console.error("Error in signup of user: ", error);
         } finally {
             setIsSubmitting(false);
-
         }
     }
-
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-800">
