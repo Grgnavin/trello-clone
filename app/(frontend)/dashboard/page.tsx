@@ -62,10 +62,12 @@ const Dashboard: React.FC = () => {
         try {
             setLoading(true);
             const res = await axios.delete('/api/logout');
+            console.log(res);
             toast({
                 title: "Logout Successfully",
                 description: "User loggedOut"
             })
+            router.push('/signin');
         } catch (error) {
             console.log(error);
             toast({
