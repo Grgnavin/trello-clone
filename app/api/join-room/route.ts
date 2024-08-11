@@ -7,7 +7,9 @@ interface ReqBody {
 }
 export async function POST(req: Request): Promise<any> {
     const { name, code }: ReqBody = await req.json();
+    
     await dbConnect();
+    
     try {
         if (!name || !code) {
             return Response.json({
@@ -26,7 +28,7 @@ export async function POST(req: Request): Promise<any> {
         }
 
         return Response.json({
-            data: room,
+            room,
             message: `Sucessfully entered the room ${room.name}`,
             success: true
         }, { status: 200 })
