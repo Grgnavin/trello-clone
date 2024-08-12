@@ -113,7 +113,7 @@ const Dashboard: React.FC = () => {
             {/* Top bar */}
             <div className="bg-gray-800 text-white relative p-4 flex flex-col items-center justify-center">
                 <h1 className="text-2xl font-bold">
-                    Good morning, {user?.username || 'Loading...'}
+                    {user?.username ? `Goodmorning! ${user?.username}` : "Please Signin again"}
                 </h1>
                 <button onClick={LogoutHandler} className='absolute top-4 right-4 px-4 py-2 bg-blue-500 text-white rounded'>
                     {loading ? 'Logging out...' : 'Logout'}

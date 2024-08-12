@@ -74,7 +74,6 @@ export async function GET(req: Request) {
             })
         }
         const room = await Room.find().select('-code');
-    
         if(room.length === 0 || !room) {
             return Response.json({
                 success: true,
@@ -95,3 +94,4 @@ export async function GET(req: Request) {
         },{ status: 500 })
     }
 }
+

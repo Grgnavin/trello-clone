@@ -25,7 +25,6 @@ interface RoomCardProps {
 }
 const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [roomName, setRoomName] = useState('');
     const [roomCode, setRoomCode] = useState('');
 
     const { toast } = useToast();
@@ -43,7 +42,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
         e.preventDefault();
         try {
             const res = await axios.post('/api/join-room',
-                { name: roomName, code: roomCode },
+                { name: room.name, code: roomCode },
                 { withCredentials: true }
             );
             console.log(res);
@@ -76,23 +75,14 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogContent className="p-6 max-w-sm mx-auto bg-white rounded-lg shadow-lg">
                     <DialogHeader>
-                        <DialogTitle>Join Room</DialogTitle>
+                        <DialogTitle>{`To join the ${room.name}, please enter the code below`}</DialogTitle>
                         <DialogDescription>
-                            Enter the room name and code to join.
+                            Enter the code to join.
                         </DialogDescription>
                     </DialogHeader>
                     <form className="mt-4">
-                        <label className="block text-sm font-medium text-gray-700">
-                            Room Name
-                        </label>
-                        <input
-                            type="text"
-                            value={roomName}
-                            onChange={(e) => setRoomName(e.target.value)}
-                            className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-                        />
-                        <label className="block mt-4 text-sm font-medium text-gray-700">
-                            Room Code
+                        <label className="block text-sm font-medium text-gray-700 ">
+                            Room Code:
                         </label>
                         <input
                             type="text"

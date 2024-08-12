@@ -14,7 +14,6 @@ import { Textarea } from '@/components/ui/textarea';
 
 const CreateTask = () => {
   const [date, setDate] = useState<Date>();
-
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-800 p-4">
       <Card className="w-[750px] bg-white">
