@@ -59,7 +59,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
 
     return (
         <>
-            <Card className="bg-gray-800 text-white mb-4 mx-2 w-[400px] h-[250px] flex flex-col relative">
+            <Card className="bg-gray-800 text-white mb-4 mx-2 w-[500px] h-[250px] flex flex-col relative">
                 <CardContent className="flex-1 mt-2" onClick={onClickHandler}>
                     <h2 className="text-lg font-semibold">{room.name}</h2>
                     <p className="mt-2">{room.description}</p>

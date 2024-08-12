@@ -11,11 +11,17 @@ import { Popover, PopoverTrigger, PopoverContent } from '@radix-ui/react-popover
 import { cn } from '@/lib/utils';
 import { Calendar } from '@/components/ui/calendar';
 import { Textarea } from '@/components/ui/textarea';
+import { useRouter } from 'next/navigation';
 
 const CreateTask = () => {
   const [date, setDate] = useState<Date>();
+  const router = useRouter();
+  const CancelHanlder = () => {
+    router.back();
+  }
+
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-800 p-4">
+    <div className="flex items-center justify-center min-h-screen bg-black bg-opacity-50 p-4">
       <Card className="w-[750px] bg-white">
         <CardHeader className='items-center'>
           <CardTitle >Create Your Task</CardTitle>
@@ -92,7 +98,7 @@ const CreateTask = () => {
           </form>
         </CardContent>
         <CardFooter className="flex justify-between">
-          <Button variant="outline">Cancel</Button>
+          <Button variant="outline" onClick={CancelHanlder}>Cancel</Button>
           <Button>Create</Button>
         </CardFooter>
       </Card>

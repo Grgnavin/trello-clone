@@ -144,27 +144,23 @@ const Dashboard: React.FC = () => {
                         </button>
                     </div>
                 ) : (
-                    <div className="space-y-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                         {rooms.map((room) => (
                             <RoomCard
                                 key={room._id}
                                 room={room}
-                                // onJoin={() => {
-                                //     setSelectedRoom(room);
-                                //     setRoomCode('');
-                                // }}
                             />
                         ))}
                     </div>
                 )}
             </div>
             <div className="pt-16 flex-1"> {/* Add padding-top to account for the fixed header */}
-            <Button
-                onClick={CreateRoom}
-                className='fixed bottom-4 left-1/2 transform -translate-x-1/2 px-4 py-2 bg-blue-500 text-white rounded'>
+                <Button
+                    onClick={CreateRoom}
+                    className='fixed bottom-4 left-1/2 transform -translate-x-1/2 px-4 py-2 bg-blue-500 text-white rounded'>
                     Create Room
-            </Button>
-        </div>
+                </Button>
+            </div>
         </div>
     );
 }

@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { useToast } from '@/components/ui/use-toast';
-import { useSelector } from 'react-redux';
 
 interface UserState {
     room: {
@@ -24,7 +23,6 @@ const Room = () => {
         router.push('/task');
     };
 
-    const room = useSelector((state: any)=> state.room);
 
     const ExitRoomHandler = async () => {
         try {
@@ -44,13 +42,12 @@ const Room = () => {
         }
     }
 
-
     return (
         <div className='min-h-screen flex flex-col'>
         <div className="bg-gray-800 text-white top-0 left-0 w-full h-16 p-4 flex items-center justify-between relative z-10">
             <div className="flex-1 flex justify-center">
                 <h1 className="text-2xl font-bold">
-                    {`Welcome to the ${room.name}`}
+                    {`Organize and Manage Your Tasks with Ease`}
                 </h1>
             </div>
             <button
