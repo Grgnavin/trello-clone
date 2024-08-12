@@ -3,15 +3,12 @@ import {jwtDecode} from 'jwt-decode';
 
 export async function middleware(req: NextRequest) {
     const url = req.nextUrl;
-    console.log("Middleware triggered");
-
     const tokenCookie = req.cookies.get('token');
     const token = tokenCookie ? tokenCookie.value : undefined;
 
     if(token) {
         try {
             const decoded: any = jwtDecode(token);
-            console.log(decoded);
             const now = Date.now() / 1000;
             //check if the token is expired
             if(decoded.exp < now){

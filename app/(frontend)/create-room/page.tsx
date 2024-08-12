@@ -1,5 +1,5 @@
 'use client';
-import { setId } from '@/app/redux/roomSlice';
+import { setId, setName } from '@/app/redux/roomSlice';
 import { Button } from '@/components/ui/button';
 import { FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -19,7 +19,7 @@ const CreateRoom = () => {
     const { toast } = useToast();
     const router = useRouter();
     const dispatch = useDispatch();
-    const [name, setName] = useState('');
+    const [name, setname] = useState('');
     const [code, setCode] = useState('');
     const[isSubmitting, setIsSubmitting] = useState(false);
 
@@ -46,7 +46,8 @@ const CreateRoom = () => {
                 title: "Secure room created",
                 description: res.data?.message
             })
-            dispatch(setId(res.data?.data));
+            const id = dispatch(setId(res.data?.data?._id));
+            const name = dispatch(setName(res.data?.data?.name));
             router.push(`/room/${roomId}`)
         } catch (error) {
             console.log(error);
@@ -83,7 +84,7 @@ const CreateRoom = () => {
                                     {...field} 
                                     onChange={(e) => {
                                         field.onChange(e);
-                                        setName(e.target.value);
+                                        setname(e.target.value);
                                     }}
                                 />
                                 <FormMessage />

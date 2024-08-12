@@ -5,6 +5,7 @@ import axios from 'axios';
 import RoomCard from '@/components/Roomcard'; 
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
+import { Button } from '@/components/ui/button';
 
 // Define the types
 interface UserState {
@@ -31,7 +32,6 @@ const Dashboard: React.FC = () => {
     const user = useSelector((state: RootState) => state.user.user);
     const router = useRouter();
     const { toast } = useToast();
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -84,7 +84,10 @@ const Dashboard: React.FC = () => {
     };
 
     const handleSignInRedirect = () => {
-        router.push('/signin');
+        toast({
+            title: "Redirecting to Signin",
+        });
+        router.replace('/signin');
     }
 
     const LogoutHandler = async () => {
@@ -108,6 +111,10 @@ const Dashboard: React.FC = () => {
         }
     }
 
+    const CreateRoom = () => {
+        router.push('/create-room')
+    }
+
     return (
         <div className="min-h-screen flex flex-col">
             {/* Top bar */}
@@ -116,7 +123,7 @@ const Dashboard: React.FC = () => {
                     {user?.username ? `Goodmorning! ${user?.username}` : "Please Signin again"}
                 </h1>
                 <button onClick={LogoutHandler} className='absolute top-4 right-4 px-4 py-2 bg-blue-500 text-white rounded'>
-                    {loading ? 'Logging out...' : 'Logout'}
+                    Logout
                 </button>
             </div>
             <p className="mt-2 text-center">Here is the list of rooms you can join:</p>
@@ -151,6 +158,13 @@ const Dashboard: React.FC = () => {
                     </div>
                 )}
             </div>
+            <div className="pt-16 flex-1"> {/* Add padding-top to account for the fixed header */}
+            <Button
+                onClick={CreateRoom}
+                className='fixed bottom-4 left-1/2 transform -translate-x-1/2 px-4 py-2 bg-blue-500 text-white rounded'>
+                    Create Room
+            </Button>
+        </div>
         </div>
     );
 }
